@@ -18,7 +18,7 @@ jobs:
               with: 
                 username: blgianinis
                 password: ${{ secrets.DOCKER_PASSWORD }}
-                repository: blgianinis/argocd-teste
+                repository: blgianinis/nodeapp
                 tags: ${{ github.sha }}, latest
     
     deply:
@@ -37,7 +37,7 @@ jobs:
             - name: Atualizando os valores da imagem
               run: |
                 cd k8s
-                kustomize edit set image goapp=blgianinis/argocd-teste:${{ github.sha }}
+                kustomize edit set image goapp=blgianinis/nodeapp:${{ github.sha }}
             
             - name: Criando commit da tag nova da imagem
               run: |
