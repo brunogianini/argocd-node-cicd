@@ -7,6 +7,9 @@ resources:
 namespace: nodeapp
 
 images:
+- name: goapp
+  newName: blgianinis/nodeapp
+  newTag: 9516daca4ed168a55cff61b2cd720f91a22626cb
 - name: nodeapp
   newName: blgianinis/nodeapp
   newTag: v1
