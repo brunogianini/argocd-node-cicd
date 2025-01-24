@@ -7,6 +7,9 @@ resources:
 namespace: nodeapp
 
 images:
-  - name: nodeapp
-    newName: blgianinis/nodeapp
-    newTag: v1
+- name: goapp
+  newName: blgianinis/argocd-teste
+  newTag: 26f5ea8bfde01090ecc9fd510e01aa53b3ca2b95
+- name: nodeapp
+  newName: blgianinis/nodeapp
+  newTag: v1
