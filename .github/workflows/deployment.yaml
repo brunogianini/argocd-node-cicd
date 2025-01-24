@@ -37,7 +37,7 @@ jobs:
             - name: Atualizando os valores da imagem
               run: |
                 cd k8s
-                kustomize edit set image goapp=blgianinis/nodeapp:${{ github.sha }}
+                kustomize edit set image nodeapp=blgianinis/nodeapp:${{ github.sha }}
             
             - name: Criando commit da tag nova da imagem
               run: |
