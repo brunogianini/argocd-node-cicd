@@ -47,55 +47,15 @@ jobs:
             
             - name: Fazendo push da nova versão da imagem
               uses: ad-m/github-push-action@master
-            - name: Create or update ArgoCD app
-              env:
-                    ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
-                    ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
-              run: |
-                    # Define o payload do app
-                    APP_PAYLOAD=$(cat <<EOF
-                    {
-                      "metadata": {
-                        "name": "nodeapp",
-                        "namespace": "nodeapp"
-                      },
-                      "spec": {
-                        "project": "default",
-                        "source": {
-                          "repoURL": "https://github.com/brunogianini/argocd-node-cicd.git",
-                          "path": "/k8s",
-                          "targetRevision": "HEAD"
-                        },
-                        "destination": {
-                          "server": "https://kubernetes.default.svc",
-                          "namespace": "argocd"
-                        },
-                        "syncPolicy": {
-                          "automated": {
-                            "prune": true,
-                            "selfHeal": true
-                          }
-                        }
-                      }
-                    }
-                    EOF
-                    )
 
-                    # Envia o payload para criar ou atualizar o app
-                    curl -X POST \
-                      -H "Content-Type: application/json" \
-                      -H "Authorization: Bearer $ARGOCD_AUTH_TOKEN" \
-                      -d "$APP_PAYLOAD" \
-                      "$ARGOCD_SERVER/api/v1/applications"
-
-            - name: Sync ArgoCD app
-              env:
-                    ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
-                    ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
-              run: |
-                    curl -X POST \
-                      -H "Authorization: Bearer $ARGOCD_AUTH_TOKEN" \
-                      "$ARGOCD_SERVER/api/v1/applications/my-app/sync"
+            - uses: actions/checkout@v2
+            - name: Sync ArgoCD Application
+              uses: omegion/argocd-actions@v1
+              with:
+                address: "argocd.example.com"
+                token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+                action: sync
+                appName: "my-example-app"
 
 
-                        
+              
