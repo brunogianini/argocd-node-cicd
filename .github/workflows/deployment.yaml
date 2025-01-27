@@ -56,8 +56,8 @@ jobs:
                     APP_PAYLOAD=$(cat <<EOF
                     {
                       "metadata": {
-                        "name": "my-app",
-                        "namespace": "argocd"
+                        "name": "nodeapp",
+                        "namespace": "nodeapp"
                       },
                       "spec": {
                         "project": "default",
