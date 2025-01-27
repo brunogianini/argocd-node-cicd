@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: nodeapp
 spec:
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
       app: nodeapp
