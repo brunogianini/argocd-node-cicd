@@ -62,7 +62,7 @@ jobs:
                       "spec": {
                         "project": "default",
                         "source": {
-                          "repoURL": "https://github.com/brunogianini/argo-node-cicd.git",
+                          "repoURL": "https://github.com/brunogianini/argocd-node-cicd.git",
                           "path": "manifests",
                           "targetRevision": "HEAD"
                         },
