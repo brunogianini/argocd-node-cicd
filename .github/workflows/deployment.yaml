@@ -47,7 +47,55 @@ jobs:
             
             - name: Fazendo push da nova versão da imagem
               uses: ad-m/github-push-action@master
-              
+            - name: Create or update ArgoCD app
+              env:
+                    ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+                    ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+              run: |
+                    # Define o payload do app
+                    APP_PAYLOAD=$(cat <<EOF
+                    {
+                      "metadata": {
+                        "name": "my-app",
+                        "namespace": "argocd"
+                      },
+                      "spec": {
+                        "project": "default",
+                        "source": {
+                          "repoURL": "https://github.com/brunogianini/argo-node-cicd.git",
+                          "path": "manifests",
+                          "targetRevision": "HEAD"
+                        },
+                        "destination": {
+                          "server": "https://kubernetes.default.svc",
+                          "namespace": "default"
+                        },
+                        "syncPolicy": {
+                          "automated": {
+                            "prune": true,
+                            "selfHeal": true
+                          }
+                        }
+                      }
+                    }
+                    EOF
+                    )
+
+                    # Envia o payload para criar ou atualizar o app
+                    curl -X POST \
+                      -H "Content-Type: application/json" \
+                      -H "Authorization: Bearer $ARGOCD_AUTH_TOKEN" \
+                      -d "$APP_PAYLOAD" \
+                      "$ARGOCD_SERVER/api/v1/applications"
+
+            - name: Sync ArgoCD app
+              env:
+                    ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+                    ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+              run: |
+                    curl -X POST \
+                      -H "Authorization: Bearer $ARGOCD_AUTH_TOKEN" \
+                      "$ARGOCD_SERVER/api/v1/applications/my-app/sync"
 
 
-              
+                        
