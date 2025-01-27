@@ -63,12 +63,12 @@ jobs:
                         "project": "default",
                         "source": {
                           "repoURL": "https://github.com/brunogianini/argocd-node-cicd.git",
-                          "path": "manifests",
+                          "path": "/k8s",
                           "targetRevision": "HEAD"
                         },
                         "destination": {
                           "server": "https://kubernetes.default.svc",
-                          "namespace": "nodeapp"
+                          "namespace": "argocd"
                         },
                         "syncPolicy": {
                           "automated": {
