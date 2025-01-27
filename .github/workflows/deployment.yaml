@@ -48,14 +48,14 @@ jobs:
             - name: Fazendo push da nova versão da imagem
               uses: ad-m/github-push-action@master
 
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - name: Sync ArgoCD Application
-              uses: omegion/argocd-actions@v1
+              uses: cheelim1/argocd-actions@v0.1.1
               with:
                 address: "blgianini.com"
                 token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
                 action: sync
-                appName: "nodeapp"
+                application: "nodeapp"
 
 
               
